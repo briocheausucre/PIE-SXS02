@@ -4,6 +4,5 @@
  BRETAGNE Antonin
  CERCLÉ Octave
  COLLIGNON Maxime
- LECHARDOY Bastien
  KARABOGHOSSIAN Viken
  ROUSSE Axel
