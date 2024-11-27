@@ -7,4 +7,4 @@
  KARABOGHOSSIAN Viken  
  ROUSSE Axel  
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.reasearch.google.com/github.com/briocheausucre/PIE-SXS02/main/notebook_script.ipynb)
+
