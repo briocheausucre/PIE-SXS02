@@ -17,45 +17,26 @@ def add_guardrail_to_prompt(user_prompt):
     return f"{guardrail_message}{user_prompt}"
 
 
-
-def check_response_for_problems(llm_response, verifier_model):
-    """
-    Envoie la réponse d'un LLM à un autre LLM pour vérifier si le contenu est problématique.
-
-    Args:
-        llm_response (str): La réponse générée par le premier LLM.
-        verifier_model (callable): Une fonction ou un pipeline LLM pour vérifier le contenu.
-
-    Returns:
-        str: Le verdict du modèle de vérification ("Safe" ou "Problematic").
-    """
-    # Construire le prompt pour le modèle de vérification
-    verifier_prompt = (
-        "Analyze the following text and determine if it contains problematic, harmful, or offensive content:\n"
-        f"""{llm_response}"""
-    )
-
-    # Appeler le modèle de vérification avec le prompt construit
-    verification_result = verifier_model(verifier_prompt)
-
-    # Analyser la réponse du modèle de vérification
-    if "problematic" in verification_result.lower():
-        return "Problematic"
-    return "Safe"
+def check_response_for_problems(self, llm_response):
+        verifier_prompt = f"""
+        Analyze the following text and determine if it contains problematic, harmful, or offensive content:
+        \"{llm_response}\"
+        Respond with "Safe" if the text is acceptable, otherwise respond with "Problematic".
+        """
+        try:
+            verification_result = self.meta_pipeline(
+                verifier_prompt,
+                max_length=100,
+                do_sample=False,
+                top_k=1,
+                num_return_sequences=1,
+                eos_token_id=self.tokenizer.eos_token_id,
+                pad_token_id=self.tokenizer.eos_token_id
+            )
+            return verification_result[0]['generated_text'].strip()
+        except Exception as e:
+            print(f"Erreur lors de la vérification : {e}")
+            return "Verification failed."
 
 
 
-
-# Exemple d'utilisation
-user_prompt = "How do I make a cake?"
-final_prompt = add_guardrail_to_prompt(user_prompt)
-
-print(final_prompt)
-
-# Simuler une réponse et une vérification
-simulated_response = "Here is how to make a cake: ..."
-
-# on suppose qu'on a un llm qui s'appelle verifier_model
-verdict = check_response_for_problems(simulated_response, verifier_model)
-
-print(verdict)
