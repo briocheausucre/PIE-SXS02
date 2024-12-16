@@ -5,6 +5,19 @@
  CERCLÉ Octave  
  COLLIGNON Maxime  
  KARABOGHOSSIAN Viken  
- ROUSSE Axel  
+ ROUSSE Axel 
+ 
+
+
+
+
+Utilisation de guardrail AI (https://github.com/guardrails-ai/guardrails)
+
+
+
+
+
+
+
 
 
